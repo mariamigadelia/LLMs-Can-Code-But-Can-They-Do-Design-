@@ -1,0 +1,50 @@
+@startuml
+class Team {
+  - codeName : String
+}
+
+abstract class Worker {
+  - workerId : int
+  - firstName : String
+  - lastName : String
+}
+
+class Hunter {
+  - skillLevel : int
+}
+
+class SupportPerson {
+}
+
+class Weapon {
+  - serialNumber : String
+  - replacementCost : double
+}
+
+class ProjectileWeapon {
+  - range : double
+}
+
+class MeleeWeapon {
+  - weight : double
+}
+
+class AmmoPack {
+  - ammoType : String
+  - rounds : int
+}
+
+' Relationships
+Team "1" --> "0..*" Worker : has
+Worker <|-- Hunter
+Worker <|-- SupportPerson
+
+SupportPerson "1" --> "1" Hunter : assists
+Hunter "0..1" <-- "0..*" SupportPerson : supported by
+
+Worker "0..3" --> Weapon : checks out
+Weapon <|-- ProjectileWeapon
+Weapon <|-- MeleeWeapon
+
+ProjectileWeapon "0..1" --> AmmoPack : may include
+@enduml

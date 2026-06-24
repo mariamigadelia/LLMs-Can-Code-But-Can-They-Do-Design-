@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Stake4Less {
+  -name: String
+}
+
+class Team {
+  -codeName: String
+}
+
+abstract class Worker {
+  -idNumber: String
+  -firstName: String
+  -lastName: String
+}
+
+class Hunter {
+  -skillLevel: int
+}
+
+class SupportPersonnel {
+}
+
+class Arsenal {
+  -arsenalId: String
+}
+
+abstract class Weapon {
+  -serialNumber: String
+  -replacementCost: double
+}
+
+class ProjectileWeapon {
+  -range: double
+}
+
+class MeleeWeapon {
+  -weight: double
+}
+
+class AmmoPack {
+  -ammoType: String
+  -numberOfRounds: int
+}
+
+Stake4Less "1" *-- "1..*" Team : consists of
+Stake4Less "1" *-- "1" Arsenal : manages
+
+Team "1" *-- "1..*" Worker : has
+Worker <|-- Hunter
+Worker <|-- SupportPersonnel
+
+SupportPersonnel "1" --> "1" Hunter : assists
+Hunter "1" <-- "0..1" SupportPersonnel : assisted by
+
+Arsenal "1" *-- "0..*" Weapon : contains
+Worker "0..*" -- "0..3" Weapon : checks out
+
+Weapon <|-- ProjectileWeapon
+Weapon <|-- MeleeWeapon
+
+ProjectileWeapon "1" o-- "0..1" AmmoPack : may have
+
+note right of SupportPersonnel
+Each support person assists
+exactly one hunter on the team.
+Some hunters may have no support person.
+end note
+
+note bottom of Worker
+Workers of any type may check out
+up to 3 weapons from the arsenal.
+end note
+
+@enduml

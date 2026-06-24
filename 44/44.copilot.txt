@@ -1,0 +1,74 @@
+@startuml
+' Enumerations for clarity
+enum PizzaSize {
+  Small
+  Medium
+  Large
+}
+
+enum CrustType {
+  Thin
+  Thick
+  Stuffed
+}
+
+enum ToppingType {
+  Cheese
+  Pepperoni
+  Mushroom
+  Onion
+  Ham
+  Pineapple
+}
+
+class Customer {
+  - name : String
+  - telephone : String
+}
+
+abstract class Order {
+  - orderId : int
+}
+
+class PickUpOrder {
+  - pickUpTime : DateTime
+}
+
+class DeliveryOrder {
+  - address : String
+  - deliverByTime : DateTime
+}
+
+abstract class Item {
+  - price : double
+}
+
+class Pizza {
+  - size : PizzaSize
+  - crustType : CrustType
+}
+
+class SpecialPizza {
+  - name : String
+}
+
+class Drink {
+  - brand : String
+  - flavour : String
+}
+
+class Topping {
+  - toppingType : ToppingType
+  - price : double
+}
+
+' Relationships
+Customer "1" --> "0..*" Order : places
+Order "1" --> "0..*" Item : contains
+Order <|-- PickUpOrder
+Order <|-- DeliveryOrder
+Item <|-- Pizza
+Item <|-- Drink
+Pizza "1" --> "0..*" Topping : has
+Pizza <|-- SpecialPizza
+@enduml

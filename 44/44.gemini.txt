@@ -1,0 +1,61 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+
+class Customer {
+    - name: String
+    - telephoneNumber: String
+}
+
+abstract class Order {
+    - orderId: String
+    - date: Date
+}
+
+class PickUpOrder {
+    - pickUpTime: Time
+}
+
+class DeliveryOrder {
+    - address: String
+    - deliverByTime: Time
+}
+
+abstract class Item {
+    - price: Double
+}
+
+class Pizza {
+    - size: String
+    - crustType: String
+    - numberOfToppings: Integer
+}
+
+class SpecialPizza {
+    - name: String
+}
+
+class Topping {
+    - toppingType: String
+    - price: Double
+}
+
+class Drink {
+    - brand: String
+    - flavour: String
+}
+
+' Relationships
+Customer "1" -- "*" Order : places >
+Order "1" *-- "1..*" Item : consists of >
+
+Order <|-- PickUpOrder
+Order <|-- DeliveryOrder
+
+Item <|-- Pizza
+Item <|-- Drink
+
+Pizza <|-- SpecialPizza
+Pizza "1" *-- "*" Topping : has >
+
+@enduml

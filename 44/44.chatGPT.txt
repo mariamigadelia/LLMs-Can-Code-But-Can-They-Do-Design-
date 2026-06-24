@@ -1,0 +1,92 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Customer {
+  -name: String
+  -telephoneNumber: String
+}
+
+abstract class Order {
+  -orderId: String
+  -orderDate: Date
+  +calculateTotal(): double
+}
+
+class PickupOrder {
+  -pickupTime: DateTime
+}
+
+class DeliveryOrder {
+  -address: String
+  -deliverByTime: DateTime
+}
+
+abstract class Item {
+  -price: double
+}
+
+class Pizza {
+  -size: PizzaSize
+  -crustType: CrustType
+}
+
+class SpecialPizza {
+  -name: String
+}
+
+class Drink {
+  -brand: String
+  -flavour: String
+}
+
+class Topping {
+  -toppingType: ToppingType
+  -price: double
+}
+
+enum PizzaSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum CrustType {
+  THIN
+  REGULAR
+  THICK
+  STUFFED
+}
+
+enum ToppingType {
+  CHEESE
+  PEPPERONI
+  MUSHROOM
+  OLIVES
+  ONION
+  PINEAPPLE
+  HAM
+  BACON
+}
+
+Order <|-- PickupOrder
+Order <|-- DeliveryOrder
+
+Item <|-- Pizza
+Item <|-- Drink
+Pizza <|-- SpecialPizza
+
+Customer "1" -- "0..*" Order : places
+Order "1" *-- "1..*" Item : consists of
+Pizza "1" o-- "0..*" Topping : has
+
+Pizza --> PizzaSize
+Pizza --> CrustType
+Topping --> ToppingType
+
+note right of SpecialPizza
+Examples:
+Hawaiian,
+Meat Lovers
+end note
+
+@enduml

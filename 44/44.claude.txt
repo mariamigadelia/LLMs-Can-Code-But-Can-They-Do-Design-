@@ -1,0 +1,56 @@
+@startuml
+title Pizza Shop Domain Model
+
+class Customer {
+  - name : String
+  - telephoneNumber : String
+}
+
+abstract class Order {
+}
+
+class PickUpOrder {
+  - pickUpTime : DateTime
+}
+
+class DeliveryOrder {
+  - address : String
+  - deliverByTime : DateTime
+}
+
+abstract class Item {
+  - price : double
+}
+
+class Pizza {
+  - size : String
+  - crustType : String
+}
+
+class SpecialPizza {
+  - name : String
+}
+
+class Drink {
+  - brand : String
+  - flavour : String
+}
+
+class Topping {
+  - toppingType : String
+  - price : double
+}
+
+' Inheritance relationships
+Order <|-- PickUpOrder
+Order <|-- DeliveryOrder
+Item <|-- Pizza
+Item <|-- Drink
+Pizza <|-- SpecialPizza
+
+' Associations
+Customer "1" -- "*" Order : places >
+Order "1" *-- "1..*" Item : consists of >
+Pizza "1" *-- "1..*" Topping : has >
+
+@enduml

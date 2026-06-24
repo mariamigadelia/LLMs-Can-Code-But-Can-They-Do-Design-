@@ -1,0 +1,63 @@
+@startuml Stake4Less_Domain_Model
+
+' ===== Classes =====
+
+class Team {
+  codeName : String
+}
+
+abstract class Worker {
+  idNumber : String
+  firstName : String
+  lastName : String
+}
+
+class Hunter {
+  skillLevel : int
+}
+
+class Support {
+}
+
+abstract class Weapon {
+  serialNumber : String
+  replacementCost : double
+}
+
+class ProjectileWeapon {
+  range : double
+}
+
+class MeleeWeapon {
+  weight : double
+}
+
+class AmmoPack {
+  ammoType : String
+  rounds : int
+}
+
+' ===== Inheritance =====
+
+Hunter --|> Worker
+Support --|> Worker
+
+ProjectileWeapon --|> Weapon
+MeleeWeapon --|> Weapon
+
+' ===== Associations =====
+
+' Each worker belongs to exactly one team; a team has many workers
+Team "1" -- "1..*" Worker : employs >
+
+' Each support person assists exactly one hunter on the team;
+' some hunters may not have a support person
+Hunter "0..1" -- "0..*" Support : assisted by >
+
+' Workers may check out up to 3 weapons; a weapon is checked out by at most one worker
+Worker "0..1" -- "0..3" Weapon : checks out >
+
+' A projectile weapon may come with one ammo pack
+ProjectileWeapon "1" o-- "0..1" AmmoPack : equipped with >
+
+@enduml

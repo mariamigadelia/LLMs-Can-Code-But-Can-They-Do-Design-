@@ -1,0 +1,58 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+
+class Team {
+    - codeName: String
+}
+
+abstract class Worker {
+    - idNumber: String
+    - firstName: String
+    - lastName: String
+}
+
+class Hunter {
+    - skillLevel: Integer
+}
+
+class SupportPersonnel {
+}
+
+abstract class Weapon {
+    - serialNumber: String
+    - replacementCost: Double
+}
+
+class ProjectileWeapon {
+    - range: Double
+}
+
+class AmmoPack {
+    - ammoType: String
+    - rounds: Integer
+}
+
+class MeleeWeapon {
+    - weight: Double
+}
+
+' Relationships
+Team "1" *-- "1..*" Worker : consists of >
+
+Worker <|-- Hunter
+Worker <|-- SupportPersonnel
+
+' Support assists exactly 1 hunter; a hunter has 0 or 1 support assistants
+Hunter "0..1" -- "1" SupportPersonnel : assisted by <
+
+' Workers can check out up to 3 weapons
+Worker "0..1" -- "0..3" Weapon : checks out >
+
+Weapon <|-- ProjectileWeapon
+Weapon <|-- MeleeWeapon
+
+' Projectile weapons may optionally come with an ammo pack
+ProjectileWeapon "1" *-- "0..1" AmmoPack : contains >
+
+@enduml
