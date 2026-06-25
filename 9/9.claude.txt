@@ -73,36 +73,25 @@ entity "ClassifiedAs" as classified {
 
 ' A studio produces one or more movies; a movie has exactly one studio
 studio ||--|{ movie : "produces"
-
+}
 ' Movie <-> Genre (M:N) via ClassifiedAs
-movie ||--|{ classified
-genre ||--|{ classified
+movie ||--|{ classified}
+genre ||--|{ classified}
 
 ' Movie <-> Actor (M:N) via ActsIn, with role attribute
-movie ||--|{ actsin
-actor ||--|{ actsin
+movie ||--|{ actsin}
+actor ||--|{ actsin}
 
 ' Movie <-> Director (M:N) via Directs
-movie ||--|{ directs
-director ||--|{ directs
+movie ||--|{ directs}
+director ||--|{ directs}
 
 ' Movie has zero or more quotes
-movie ||--o{ quote : "has"
+movie ||--o{ quote : "has"}
 
 ' Each quote is spoken by one actor
 actor ||--o{ quote : "speaks"
-
-note bottom of director
-  A director may also act in a movie
-  (modeled through the ActsIn relationship,
-  not necessarily a movie they direct).
-end note
-
-note top of movie
-  Identified by (title + year).
-  Has one or more genres, directors,
-  and actors; exactly one studio.
-end note
+}
 
 @enduml
 ```
